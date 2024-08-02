@@ -13,7 +13,7 @@ export default ((opts?: Options) => {
     const links = opts?.links ?? []
     return (
       <footer class={`${displayClass ?? ""}`}>
-        <p>For Leo with love, 2024</p>
+        <p>For Leo with love, started Aug 2024</p>
       </footer>
     )
   }
