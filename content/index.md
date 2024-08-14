@@ -36,4 +36,4 @@ I hope that I can sit and share this all with you someday, but if for any reason
 Love Dad
 ![Description](assets/images/misc/leo-dad-boras.jpg)
 
-P.S. Here is why my camera is blurry
+P.S. [Here is why my camera is blurry](Memories/Random/snake-lake.md)
