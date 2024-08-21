@@ -5,7 +5,9 @@ tags: wildlife, nature
 
 As you'll learn your Dad loves wildlife, especially the 'underdogs' - the misunderstood creatures. Maybe because I felt misunderstood growing up.
 
-To me it's amazing how two people can see the same thing but look ayt and experience it in completely different ways.
+I find it amazing how two people can see the same thing but look at and experience it in completely different ways.
+
+(Actually, Marcus Aurelius the last of the Five Good Emperors [can help us here](Life/Perception-Action-Will.md))
 
 I try not to handle every animal as it does stress them out, but sometimes I can't help myself especially when I think someone can benefit from seeing it.
 

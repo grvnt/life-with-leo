@@ -5,7 +5,7 @@ tags: home
 
 Dear Leo
 
-My darling boy, you are literally the light of my life. Never before have I experienced the depth of love I feel for you. Your cheeky laugh, our little jokes and connections [[rocketship]], your flowing hair and beautiful blue eyes, the way you switch between Swedish and English, how you give me that naughty look before you grab my glasses off my face or throw your sloppy porridge on the floor.
+My darling boy, you are literally the light of my life. Never before have I experienced the depth of love I feel for you. Your cheeky laugh, our little and connections like [[rocketship]], your flowing hair and beautiful blue eyes, the way you switch between Swedish and English, how you give me that naughty look before you grab my glasses off my face or throw your sloppy porridge on the floor.
 
 <div style="display: flex; flex-wrap: wrap;">
   <img src="assets/images/Leo-glasses/IMG_4739.JPG" style="width: 30%; margin: 5px;" alt="Image 1 Description">
