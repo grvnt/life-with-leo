@@ -1,6 +1,6 @@
 ---
 title: Home Boys
-tags: 
+tags:
 ---
 
 <div style="display: flex; flex-wrap: wrap;">
