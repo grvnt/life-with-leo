@@ -13,7 +13,7 @@ This is the same with animals like snakes. They are neither good nor bad until p
 
 Our job in life is to control our perception to protect our mind from error.
 
-2. Action: relates to our relationships with others. The only thing in life that we can control is our own actions. We control our own actions and are responsible for them. So this is where our focus should be. 
+2. <a name="action"></a>Action: relates to our relationships with others. The only thing in life that we can control is our own actions. We control our own actions and are responsible for them. So this is where our focus should be. 
 
 When we act wrongly, we harm ourselves - nobody else.
 
