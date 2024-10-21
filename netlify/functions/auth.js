@@ -8,32 +8,14 @@ exports.handler = async (event, context) => {
   const isAuthenticated = event.headers.cookie && event.headers.cookie.includes('nf_jwt=authenticated');
 
   if (isAuthenticated) {
-    // Serve the requested page from the Quartz build
-    let filePath = path.join(__dirname, '..', '..', 'public', event.path);
-    
-    // If the path ends with '/', append 'index.html'
-    if (event.path.endsWith('/')) {
-      filePath = path.join(filePath, 'index.html');
-    }
-    // If the file doesn't exist, try adding '.html' extension
-    else if (!filePath.endsWith('.html')) {
-      filePath += '.html';
-    }
-
-    try {
-      const content = await fs.readFile(filePath, 'utf8');
-      return {
-        statusCode: 200,
-        headers: { 'Content-Type': 'text/html' },
-        body: content,
-      };
-    } catch (error) {
-      // If file not found, return 404
-      return {
-        statusCode: 404,
-        body: 'Page not found',
-      };
-    }
+    // User is authenticated, allow access to the requested resource
+    return {
+      statusCode: 200,
+      body: '',
+      headers: {
+        'X-Auth-Result': 'allow',
+      },
+    };
   } else if (event.httpMethod === 'POST') {
     // Handle password submission
     const receivedPassword = decodeURIComponent(event.body.split('=')[1]);
@@ -65,7 +47,12 @@ exports.handler = async (event, context) => {
           <head>
             <title>Login</title>
             <style>
-              /* Your CSS styles here */
+              body { font-family: Arial, sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; background-color: #f0f0f0; }
+              .container { background-color: white; padding: 2rem; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+              h1 { color: #333; }
+              input, button { margin: 10px 0; padding: 10px; width: 100%; box-sizing: border-box; }
+              button { background-color: #007bff; color: white; border: none; cursor: pointer; }
+              button:hover { background-color: #0056b3; }
             </style>
           </head>
           <body>
@@ -86,7 +73,7 @@ exports.handler = async (event, context) => {
                   headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
                 });
                 if (response.ok) {
-                  window.location.reload();
+                  window.location.href = '/';
                 } else {
                   alert('Incorrect password');
                 }
