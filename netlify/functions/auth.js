@@ -36,6 +36,8 @@ exports.handler = async (event, context) => {
     }
   } else if (event.httpMethod === 'POST') {
     // Handle password submission
+    console.log('Received password:', event.body);
+    console.log('Expected password:', `password=${password}`);
     if (event.body === `password=${password}`) {
       return {
         statusCode: 200,
@@ -48,7 +50,7 @@ exports.handler = async (event, context) => {
     } else {
       return {
         statusCode: 401,
-        body: JSON.stringify({ success: false }),
+        body: JSON.stringify({ success: false, message: 'Incorrect password' }),
       };
     }
   } else {
