@@ -8,19 +8,38 @@ exports.handler = async (event, context) => {
   const isAuthenticated = event.headers.cookie && event.headers.cookie.includes('nf_jwt=authenticated');
 
   if (isAuthenticated) {
-    // User is authenticated, allow access to the requested resource
-    return {
-      statusCode: 200,
-      body: '',
-      headers: {
-        'X-Auth-Result': 'allow',
-      },
-    };
+    // Serve the requested page from the Quartz build
+    let filePath = path.join(__dirname, '..', '..', 'public', event.path);
+    
+    // If the path ends with '/', append 'index.html'
+    if (event.path === '/' || event.path.endsWith('/')) {
+      filePath = path.join(filePath, 'index.html');
+    }
+    // If the file doesn't exist, try adding '.html' extension
+    else if (!filePath.endsWith('.html') && !path.extname(filePath)) {
+      filePath += '.html';
+    }
+
+    try {
+      const content = await fs.readFile(filePath);
+      const contentType = getContentType(filePath);
+      return {
+        statusCode: 200,
+        headers: { 'Content-Type': contentType },
+        body: contentType.startsWith('text/') ? content.toString() : content.toString('base64'),
+        isBase64Encoded: !contentType.startsWith('text/')
+      };
+    } catch (error) {
+      console.error('Error reading file:', error);
+      // If file not found, return 404
+      return {
+        statusCode: 404,
+        body: 'Page not found',
+      };
+    }
   } else if (event.httpMethod === 'POST') {
     // Handle password submission
     const receivedPassword = decodeURIComponent(event.body.split('=')[1]);
-    console.log('Received password:', receivedPassword);
-    console.log('Expected password:', password);
     if (receivedPassword === password) {
       return {
         statusCode: 200,
@@ -85,3 +104,19 @@ exports.handler = async (event, context) => {
     };
   }
 };
+
+function getContentType(filePath) {
+  const ext = path.extname(filePath).toLowerCase();
+  const types = {
+    '.html': 'text/html',
+    '.css': 'text/css',
+    '.js': 'text/javascript',
+    '.json': 'application/json',
+    '.png': 'image/png',
+    '.jpg': 'image/jpeg',
+    '.gif': 'image/gif',
+    '.svg': 'image/svg+xml',
+    '.ico': 'image/x-icon',
+  };
+  return types[ext] || 'application/octet-stream';
+}

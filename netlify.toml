@@ -8,7 +8,6 @@
   to = "/.netlify/functions/auth"
   status = 200
   force = true
-  conditions = {Role = ["!authenticated"]}
 
 [[redirects]]
   from = "/*"
