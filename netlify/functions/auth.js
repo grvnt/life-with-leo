@@ -4,12 +4,17 @@ const path = require('path');
 exports.handler = async (event, context) => {
   const password = process.env.SITE_PASSWORD;
   
+  console.log('Event path:', event.path);
+  console.log('Current directory:', __dirname);
+  
   // Check if user is authenticated
   const isAuthenticated = event.headers.cookie && event.headers.cookie.includes('nf_jwt=authenticated');
 
   if (isAuthenticated) {
     // Serve the requested page from the Quartz build
     let filePath = path.join(__dirname, '..', '..', 'public', event.path.replace('/.netlify/functions/auth', ''));
+    
+    console.log('Attempting to serve file:', filePath);
     
     // If the path is empty or ends with '/', append 'index.html'
     if (filePath.endsWith('/') || path.basename(filePath) === 'public') {
@@ -23,6 +28,7 @@ exports.handler = async (event, context) => {
     try {
       const content = await fs.readFile(filePath);
       const contentType = getContentType(filePath);
+      console.log('Successfully read file:', filePath);
       return {
         statusCode: 200,
         headers: { 'Content-Type': contentType },
@@ -34,7 +40,7 @@ exports.handler = async (event, context) => {
       // If file not found, return 404
       return {
         statusCode: 404,
-        body: 'Page not found',
+        body: `Page not found. Attempted to serve: ${filePath}`,
       };
     }
   } else if (event.httpMethod === 'POST') {
