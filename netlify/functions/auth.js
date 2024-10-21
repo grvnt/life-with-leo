@@ -10,13 +10,14 @@ exports.handler = async (event, context) => {
   const isAuthenticated = event.headers.cookie && event.headers.cookie.includes('nf_jwt=authenticated');
 
   if (isAuthenticated) {
-    // User is authenticated, allow access
+    // User is authenticated, redirect to the main page
     return {
-      statusCode: 200,
+      statusCode: 302,
       headers: {
-        'X-Auth-Result': 'allowed',
+        'Location': '/',
+        'Cache-Control': 'no-cache'
       },
-      body: JSON.stringify({ authenticated: true }),
+      body: ''
     };
   } else if (event.httpMethod === 'POST') {
     // Handle password submission
