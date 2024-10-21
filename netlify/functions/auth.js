@@ -5,44 +5,19 @@ exports.handler = async (event, context) => {
   const password = process.env.SITE_PASSWORD;
   
   console.log('Event path:', event.path);
-  console.log('Current directory:', __dirname);
   
   // Check if user is authenticated
   const isAuthenticated = event.headers.cookie && event.headers.cookie.includes('nf_jwt=authenticated');
 
   if (isAuthenticated) {
-    // Serve the requested page from the Quartz build
-    let filePath = path.join(__dirname, '..', '..', 'public', event.path.replace('/.netlify/functions/auth', ''));
-    
-    console.log('Attempting to serve file:', filePath);
-    
-    // If the path is empty or ends with '/', append 'index.html'
-    if (filePath.endsWith('/') || path.basename(filePath) === 'public') {
-      filePath = path.join(filePath, 'index.html');
-    }
-    // If the file doesn't exist, try adding '.html' extension
-    else if (!path.extname(filePath)) {
-      filePath += '.html';
-    }
-
-    try {
-      const content = await fs.readFile(filePath);
-      const contentType = getContentType(filePath);
-      console.log('Successfully read file:', filePath);
-      return {
-        statusCode: 200,
-        headers: { 'Content-Type': contentType },
-        body: contentType.startsWith('text/') ? content.toString() : content.toString('base64'),
-        isBase64Encoded: !contentType.startsWith('text/')
-      };
-    } catch (error) {
-      console.error('Error reading file:', error);
-      // If file not found, return 404
-      return {
-        statusCode: 404,
-        body: `Page not found. Attempted to serve: ${filePath}`,
-      };
-    }
+    // User is authenticated, allow access
+    return {
+      statusCode: 200,
+      headers: {
+        'X-Auth-Result': 'allowed',
+      },
+      body: JSON.stringify({ authenticated: true }),
+    };
   } else if (event.httpMethod === 'POST') {
     // Handle password submission
     const params = new URLSearchParams(event.body);
