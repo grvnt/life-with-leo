@@ -9,14 +9,14 @@ exports.handler = async (event, context) => {
 
   if (isAuthenticated) {
     // Serve the requested page from the Quartz build
-    let filePath = path.join(__dirname, '..', '..', 'public', event.path);
+    let filePath = path.join(__dirname, '..', '..', 'public', event.path.replace('/.netlify/functions/auth', ''));
     
-    // If the path ends with '/', append 'index.html'
-    if (event.path === '/' || event.path.endsWith('/')) {
+    // If the path is empty or ends with '/', append 'index.html'
+    if (filePath.endsWith('/') || path.basename(filePath) === 'public') {
       filePath = path.join(filePath, 'index.html');
     }
     // If the file doesn't exist, try adding '.html' extension
-    else if (!filePath.endsWith('.html') && !path.extname(filePath)) {
+    else if (!path.extname(filePath)) {
       filePath += '.html';
     }
 
@@ -39,7 +39,10 @@ exports.handler = async (event, context) => {
     }
   } else if (event.httpMethod === 'POST') {
     // Handle password submission
-    const receivedPassword = decodeURIComponent(event.body.split('=')[1]);
+    const params = new URLSearchParams(event.body);
+    const receivedPassword = params.get('password');
+    console.log('Received password:', receivedPassword);
+    console.log('Expected password:', password);
     if (receivedPassword === password) {
       return {
         statusCode: 200,
@@ -88,7 +91,7 @@ exports.handler = async (event, context) => {
                 const password = document.getElementById('password').value;
                 const response = await fetch('/.netlify/functions/auth', {
                   method: 'POST',
-                  body: 'password=' + encodeURIComponent(password),
+                  body: new URLSearchParams({password}),
                   headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
                 });
                 if (response.ok) {
