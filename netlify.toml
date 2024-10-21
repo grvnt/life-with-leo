@@ -1,11 +1,17 @@
 [build]
   command = "npx quartz build"
   publish = "public"
+  functions = "netlify/functions"
 
 [build.environment]
   NODE_VERSION = "18"
 
 [[redirects]]
   from = "/*"
-  to = "/index.html"
+  to = "/.netlify/functions/auth"
   status = 200
+  force = true
+  conditions = {Role = ["!authenticated"]}
+
+[functions]
+  directory = "netlify/functions"
