@@ -1,5 +1,5 @@
 [build]
-  command = "npx quartz sync"
+  command = "npx quartz build"
   publish = "public"
 
 [build.environment]
