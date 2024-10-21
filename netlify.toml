@@ -8,12 +8,13 @@
   to = "/.netlify/functions/auth"
   status = 200
   force = true
-  conditions = {Role = ["!authenticated"]}
-
-[[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200
 
 [functions]
   directory = "netlify/functions"
+
+# Add this new section
+[[headers]]
+  for = "/*"
+  [headers.values]
+    Cache-Control = "no-store, no-cache"
+    Pragma = "no-cache"
